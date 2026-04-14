@@ -1,0 +1,66 @@
+# ========================
+# Virtual Environment
+# ========================
+venv/
+.env
+
+# ========================
+# Python Cache
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ========================
+# YOLOv8 Model Weights
+# (too large for GitHub)
+# ========================
+*.pt
+*.pth
+*.onnx
+*.engine
+model/runs/
+
+# ========================
+# Dataset
+# (too large for GitHub)
+# ========================
+dataset/images/
+dataset/labels/
+dataset/videos/
+dataset/coco128/
+*.zip
+*.tar.gz
+
+# ========================
+# Low Confidence Frames
+# (auto-generated)
+# ========================
+unknown_detections/
+
+# ========================
+# Flask Uploads
+# (user uploaded files)
+# ========================
+uploads/
+
+# ========================
+# VS Code
+# ========================
+.vscode/
+
+# ========================
+# OS Files
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# Logs & Reports
+# ========================
+*.log
+*.csv
+runs/
