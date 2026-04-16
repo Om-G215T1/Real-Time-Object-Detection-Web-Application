@@ -1,0 +1,10 @@
+ultralytics==8.2.0
+opencv-python==4.10.0.82
+flask==3.0.3
+flask-cors==4.0.1
+numpy==1.26.4
+Pillow==10.3.0
+gradio==4.36.1
+PyYAML==6.0.1
+tqdm==4.66.4
+matplotlib==3.9.0
