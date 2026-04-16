@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YOLOv8 Object Detection</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- ─── Header ─────────────────────────────── -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">🎯</span>
+      <h1>YOLOv8 Object Detection</h1>
+    </div>
+    <div class="header-right">
+      <!-- Model selector -->
+      <div class="control-group">
+        <label for="model-select">Model</label>
+        <select id="model-select">
+          <option value="yolov8n.pt">YOLOv8n (Fastest)</option>
+          <option value="yolov8s.pt">YOLOv8s (Fast)</option>
+          <option value="yolov8m.pt" selected>YOLOv8m (Balanced)</option>
+          <option value="yolov8l.pt">YOLOv8l (Accurate)</option>
+          <option value="yolov8x.pt">YOLOv8x (Most Accurate)</option>
+        </select>
+      </div>
+
+      <!-- Confidence slider -->
+      <div class="control-group">
+        <label for="conf-slider">
+          Confidence: <span id="conf-value">0.50</span>
+        </label>
+        <input type="range" id="conf-slider"
+               min="0.10" max="0.95" step="0.05" value="0.50"/>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── Tabs ────────────────────────────────── -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="webcam">
+      📷 Live Webcam
+    </button>
+    <button class="tab" data-tab="image">
+      🖼️ Image Upload
+    </button>
+    <button class="tab" data-tab="video">
+      🎬 Video Upload
+    </button>
+  </nav>
+
+  <!-- ─── Main Content ────────────────────────── -->
+  <main class="main">
+
+    <!-- Webcam Tab -->
+    <section id="tab-webcam" class="tab-content active">
+      <div class="content-grid">
+
+        <div class="stream-panel">
+          <div class="stream-box" id="webcam-box">
+            <img id="webcam-stream" src="" alt="Webcam stream"/>
+            <div class="placeholder" id="webcam-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <p>Click Start to begin live detection</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button id="start-webcam" class="btn btn-primary">
+              ▶ Start Detection
+            </button>
+            <button id="stop-webcam" class="btn btn-danger" disabled>
+              ■ Stop
+            </button>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="stats-box">
+            <h3>Live Stats</h3>
+            <div class="stat-item">
+              <span class="stat-label">Status</span>
+              <span class="stat-value" id="webcam-status">Idle</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Device</span>
+              <span class="stat-value" id="webcam-device">—</span>
+            </div>
+          </div>
+          <div class="detections-box">
+            <h3>Detected Objects</h3>
+            <div id="webcam-detections" class="detection-list">
+              <p class="empty-msg">No detections yet</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Image Tab -->
+    <section id="tab-image" class="tab-content">
+      <div class="content-grid">
+
+        <div class="upload-panel">
+          <div class="upload-box" id="image-drop-zone">
+            <span class="upload-icon">🖼️</span>
+            <p>Drag & drop an image here</p>
+            <p class="upload-sub">or</p>
+            <label class="btn btn-secondary" for="image-input">
+              Browse File
+            </label>
+            <input type="file" id="image-input"
+                   accept=".jpg,.jpeg,.png,.bmp,.webp" hidden/>
+          </div>
+          <div id="image-preview-box" class="preview-box hidden">
+            <img id="image-preview" src="" alt="Preview"/>
+          </div>
+          <button id="detect-image-btn" class="btn btn-primary" disabled>
+            🔍 Detect Objects
+          </button>
+        </div>
+
+        <div class="result-panel">
+          <div class="stream-box" id="image-result-box">
+            <img id="image-result" src="" alt="Result"/>
+            <div class="placeholder" id="image-placeholder">
+              <span class="placeholder-icon">🔍</span>
+              <p>Detection result will appear here</p>
+            </div>
+          </div>
+          <div class="detections-box">
+            <h3>Detections <span id="image-count" class="count-badge">0</span></h3>
+            <div id="image-detections" class="detection-list">
+              <p class="empty-msg">No detections yet</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Video Tab -->
+    <section id="tab-video" class="tab-content">
+      <div class="content-grid">
+
+        <div class="upload-panel">
+          <div class="upload-box" id="video-drop-zone">
+            <span class="upload-icon">🎬</span>
+            <p>Drag & drop a video here</p>
+            <p class="upload-sub">or</p>
+            <label class="btn btn-secondary" for="video-input">
+              Browse File
+            </label>
+            <input type="file" id="video-input"
+                   accept=".mp4,.avi,.mov,.mkv" hidden/>
+          </div>
+          <div id="video-info" class="file-info hidden">
+            <span id="video-filename">—</span>
+          </div>
+          <button id="detect-video-btn" class="btn btn-primary" disabled>
+            ▶ Process Video
+          </button>
+        </div>
+
+        <div class="result-panel">
+          <div class="stream-box" id="video-result-box">
+            <img id="video-stream" src="" alt="Video stream"/>
+            <div class="placeholder" id="video-placeholder">
+              <span class="placeholder-icon">🎬</span>
+              <p>Processed video will stream here</p>
+            </div>
+          </div>
+          <div class="stats-box">
+            <h3>Processing Stats</h3>
+            <div class="stat-item">
+              <span class="stat-label">Status</span>
+              <span class="stat-value" id="video-status">Idle</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── Status Bar ───────────────────────────── -->
+  <footer class="status-bar">
+    <span id="status-message">Ready</span>
+    <span id="api-status" class="api-badge">Checking API...</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
