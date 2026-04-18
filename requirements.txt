@@ -8,3 +8,5 @@ gradio==4.36.1
 PyYAML==6.0.1
 tqdm==4.66.4
 matplotlib==3.9.0
+# Open requirements.txt and add this line:
+python-dotenv==1.0.1
