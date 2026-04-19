@@ -1,0 +1,11 @@
+# deployment/requirements.txt
+# Hugging Face Spaces — CPU optimized
+
+ultralytics==8.2.0
+opencv-python-headless==4.10.0.82
+gradio==4.36.1
+Pillow==10.3.0
+numpy==1.26.4
+PyYAML==6.0.1
+torch==2.3.0
+torchvision==0.18.0
